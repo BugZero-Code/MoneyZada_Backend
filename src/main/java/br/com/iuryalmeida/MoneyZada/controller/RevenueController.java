@@ -39,4 +39,18 @@ public class RevenueController {
                 .map(revenue -> ResponseEntity.ok(revenue))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+    @Operation(summary = "Editar uma receita existente", description = "Atualiza os dados de uma receita pelo seu ID")
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateRevenue(@PathVariable Long id, @Valid @RequestBody Revenue updatedRevenue) {
+        return revenueRepository.findById(id)
+                .map(existingRevenue -> {
+                    existingRevenue.setDescription(updatedRevenue.getDescription());
+                    existingRevenue.setAmount(updatedRevenue.getAmount());
+                    existingRevenue.setDate(updatedRevenue.getDate());
+                    revenueRepository.save(existingRevenue);
+                    return new ResponseEntity<>("Receita atualizada com sucesso", HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("Receita não encontrada", HttpStatus.NOT_FOUND));
+    }
 }

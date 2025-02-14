@@ -22,7 +22,6 @@ class ExpenseControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @SuppressWarnings("removal")
     @MockBean
     private ExpenseRepository expenseRepository;
 
@@ -38,22 +37,24 @@ class ExpenseControllerTest {
 
     @Test
     void registerExpense_ShouldReturn201_WhenValidExpense() throws Exception {
+        // Mockando a resposta do repository para quando salvar uma despesa
         Mockito.when(expenseRepository.save(Mockito.any(Expense.class))).thenReturn(expense);
 
         mockMvc.perform(post("/expenses")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(expense)))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("Despesa registrada com sucesso"));
+                .content(objectMapper.writeValueAsString(expense)))  // Enviando o objeto como JSON
+                .andExpect(status().isCreated())  // Espera o status 201 Created
+                .andExpect(content().string("Despesa registrada com sucesso"));  // Verifica a resposta correta
     }
 
     @Test
     void registerExpense_ShouldReturn400_WhenInvalidExpense() throws Exception {
-        Expense invalidExpense = new Expense();
+        // Criando uma despesa inválida (sem dados suficientes)
+        Expense invalidExpense = new Expense();  // Faltando dados obrigatórios
 
         mockMvc.perform(post("/expenses")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(invalidExpense)))
-                .andExpect(status().isBadRequest());
+                .content(objectMapper.writeValueAsString(invalidExpense)))  // Enviando um objeto vazio como JSON
+                .andExpect(status().isBadRequest());  // Espera o status 400 Bad Request
     }
 }

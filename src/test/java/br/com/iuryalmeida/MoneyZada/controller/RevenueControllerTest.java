@@ -22,7 +22,6 @@ class RevenueControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @SuppressWarnings("removal")
     @MockBean
     private RevenueRepository revenueRepository;
 
@@ -39,22 +38,24 @@ class RevenueControllerTest {
 
     @Test
     void registerRevenue_ShouldReturn201_WhenValidRevenue() throws Exception {
+        // Mockando a resposta do repository para quando salvar um Revenue
         Mockito.when(revenueRepository.save(Mockito.any(Revenue.class))).thenReturn(revenue);
 
         mockMvc.perform(post("/revenues")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(revenue)))
-                .andExpect(status().isCreated())
-                .andExpect(content().string("Receita registrada com sucesso"));
+                .content(objectMapper.writeValueAsString(revenue)))  // Enviando o objeto como JSON
+                .andExpect(status().isCreated())  // Espera o status 201 Created
+                .andExpect(content().string("Receita registrada com sucesso"));  // Verifica a resposta correta
     }
 
     @Test
     void registerRevenue_ShouldReturn400_WhenInvalidRevenue() throws Exception {
-        Revenue invalidRevenue = new Revenue();
+        // Criando um Revenue inválido (sem dados suficientes)
+        Revenue invalidRevenue = new Revenue();  // Faltando dados obrigatórios
 
         mockMvc.perform(post("/revenues")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(invalidRevenue)))
-                .andExpect(status().isBadRequest());
+                .content(objectMapper.writeValueAsString(invalidRevenue)))  // Enviando um objeto vazio como JSON
+                .andExpect(status().isBadRequest());  // Espera o status 400 Bad Request
     }
 }
