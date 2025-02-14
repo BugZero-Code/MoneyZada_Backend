@@ -45,7 +45,7 @@ class UserControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isCreated())
-                .andExpect(content().string("User registered successfully"));
+                .andExpect(content().string("Usuario registrado com sucesso"));
     }
 
     @Test
