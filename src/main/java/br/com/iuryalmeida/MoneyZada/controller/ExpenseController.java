@@ -25,6 +25,7 @@ public class ExpenseController {
         expenseRepository.save(expense);
         return new ResponseEntity<>("Despesa registrada com sucesso", HttpStatus.CREATED);
     }
+    
 
     @Operation(summary = "Listar todas as despesas", description = "Retorna uma lista com todas as despesas registradas")
     @GetMapping

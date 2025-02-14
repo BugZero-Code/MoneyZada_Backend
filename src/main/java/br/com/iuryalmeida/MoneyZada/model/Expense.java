@@ -1,9 +1,7 @@
 package br.com.iuryalmeida.MoneyZada.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Expense {
@@ -12,7 +10,11 @@ public class Expense {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "O nome não pode estar vazio")
     private String name;
+
+    @NotNull(message = "O valor não pode ser nulo")
+    @Positive(message = "O valor deve ser positivo")
     private Double amount;
 
     public Long getId() {
