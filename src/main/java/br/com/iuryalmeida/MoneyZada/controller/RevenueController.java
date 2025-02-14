@@ -53,4 +53,15 @@ public class RevenueController {
                 })
                 .orElseGet(() -> new ResponseEntity<>("Receita não encontrada", HttpStatus.NOT_FOUND));
     }
+
+    @Operation(summary = "Excluir uma receita", description = "Deleta uma receita pelo seu ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteRevenue(@PathVariable Long id) {
+        return revenueRepository.findById(id)
+                .map(existingRevenue -> {
+                    revenueRepository.delete(existingRevenue);
+                    return new ResponseEntity<>("Receita excluída com sucesso", HttpStatus.NO_CONTENT);
+                })
+                .orElseGet(() -> new ResponseEntity<>("Receita não encontrada", HttpStatus.NOT_FOUND));
+    }
 }
