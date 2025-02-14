@@ -25,7 +25,6 @@ public class ExpenseController {
         expenseRepository.save(expense);
         return new ResponseEntity<>("Despesa registrada com sucesso", HttpStatus.CREATED);
     }
-    
 
     @Operation(summary = "Listar todas as despesas", description = "Retorna uma lista com todas as despesas registradas")
     @GetMapping
@@ -41,16 +40,27 @@ public class ExpenseController {
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
 
-@Operation(summary = "Editar uma despesa existente", description = "Atualiza os dados de uma despesa pelo seu ID")
-@PatchMapping("/{id}")
-public ResponseEntity<String> updateExpense(@PathVariable Long id, @Valid @RequestBody Expense updatedExpense) {
-    return expenseRepository.findById(id)
-            .map(existingExpense -> {
-                existingExpense.setName(updatedExpense.getName());
-                existingExpense.setAmount(updatedExpense.getAmount());
-                expenseRepository.save(existingExpense);
-                return new ResponseEntity<>("Despesa atualizada com sucesso", HttpStatus.OK);
-            })
-            .orElseGet(() -> new ResponseEntity<>("Despesa não encontrada", HttpStatus.NOT_FOUND));
-}
+    @Operation(summary = "Editar uma despesa existente", description = "Atualiza os dados de uma despesa pelo seu ID")
+    @PatchMapping("/{id}")
+    public ResponseEntity<String> updateExpense(@PathVariable Long id, @Valid @RequestBody Expense updatedExpense) {
+        return expenseRepository.findById(id)
+                .map(existingExpense -> {
+                    existingExpense.setName(updatedExpense.getName());
+                    existingExpense.setAmount(updatedExpense.getAmount());
+                    expenseRepository.save(existingExpense);
+                    return new ResponseEntity<>("Despesa atualizada com sucesso", HttpStatus.OK);
+                })
+                .orElseGet(() -> new ResponseEntity<>("Despesa não encontrada", HttpStatus.NOT_FOUND));
+    }
+
+    @Operation(summary = "Excluir uma despesa", description = "Remove uma despesa pelo seu ID")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteExpense(@PathVariable Long id) {
+        return expenseRepository.findById(id)
+                .map(expense -> {
+                    expenseRepository.delete(expense);
+                    return new ResponseEntity<>("Despesa excluída com sucesso", HttpStatus.NO_CONTENT);
+                })
+                .orElseGet(() -> new ResponseEntity<>("Despesa não encontrada", HttpStatus.NOT_FOUND));
+    }
 }
