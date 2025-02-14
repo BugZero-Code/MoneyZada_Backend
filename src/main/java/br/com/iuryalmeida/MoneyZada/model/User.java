@@ -1,4 +1,4 @@
-package br.com.iuryalmeida.MoneyZada.user;
+package br.com.iuryalmeida.MoneyZada.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

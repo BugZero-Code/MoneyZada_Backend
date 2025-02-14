@@ -1,7 +1,8 @@
 package br.com.iuryalmeida.MoneyZada.controller;
 
+import br.com.iuryalmeida.MoneyZada.model.User;
 import br.com.iuryalmeida.MoneyZada.repository.UserRepository;
-import br.com.iuryalmeida.MoneyZada.user.User;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

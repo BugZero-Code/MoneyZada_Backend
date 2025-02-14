@@ -1,8 +1,8 @@
 package br.com.iuryalmeida.MoneyZada.controller;
 
-import br.com.iuryalmeida.MoneyZada.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import br.com.iuryalmeida.MoneyZada.model.User;
 import br.com.iuryalmeida.MoneyZada.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,6 +23,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<String> registerUser(@Valid @RequestBody User user) {
         userRepository.save(user);
-        return new ResponseEntity<>("Usuario registrado com sucesso", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Usuario registrado com sucesso");
     }
 }
