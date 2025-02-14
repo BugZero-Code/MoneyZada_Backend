@@ -10,6 +10,4 @@ public class Revenue {
     private String description;
     private Double amount;
     private String date;
-
-    // Getters e Setters
 }
