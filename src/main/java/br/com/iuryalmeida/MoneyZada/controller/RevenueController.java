@@ -25,4 +25,14 @@ public class RevenueController {
     @GetMapping
     public ResponseEntity<?> getAllRevenues() {
         return ResponseEntity.ok(revenueRepository.findAll());
-    }}
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Revenue> getRevenue(@PathVariable Long id) {
+        return revenueRepository.findById(id)
+                .map(revenue -> ResponseEntity.ok(revenue))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
+    }
+
+
+}
