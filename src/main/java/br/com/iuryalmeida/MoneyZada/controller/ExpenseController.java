@@ -40,4 +40,17 @@ public class ExpenseController {
                 .map(expense -> ResponseEntity.ok(expense))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
+
+@Operation(summary = "Editar uma despesa existente", description = "Atualiza os dados de uma despesa pelo seu ID")
+@PatchMapping("/{id}")
+public ResponseEntity<String> updateExpense(@PathVariable Long id, @Valid @RequestBody Expense updatedExpense) {
+    return expenseRepository.findById(id)
+            .map(existingExpense -> {
+                existingExpense.setName(updatedExpense.getName());
+                existingExpense.setAmount(updatedExpense.getAmount());
+                expenseRepository.save(existingExpense);
+                return new ResponseEntity<>("Despesa atualizada com sucesso", HttpStatus.OK);
+            })
+            .orElseGet(() -> new ResponseEntity<>("Despesa não encontrada", HttpStatus.NOT_FOUND));
+}
 }
